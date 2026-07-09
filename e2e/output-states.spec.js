@@ -39,7 +39,7 @@ test("only the canvas and actions are visible after a valid generate", async ({ 
   expect(await isVisible(page, "output-error")).toBe(false);
 });
 
-test("no viewport overflows horizontally after a generate", async ({ page }, testInfo) => {
+test("no viewport overflows horizontally after a generate", async ({ page }) => {
   await page.goto("/");
   await page.fill("#before-input", "function greet(name) {\n  return 'hi ' + name;\n}");
   await page.fill("#after-input", "function greet(name) {\n  return `hello, ${name}!`;\n}");

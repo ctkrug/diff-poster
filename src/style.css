@@ -1,5 +1,30 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+
+  --bg: #f3ede1;
+  --surface-1: #fbf8f1;
+  --surface-2: #e7ded0;
+  --ink: #241f18;
+  --ink-muted: #6b6154;
+  --accent-add: #b3541e;
+  --accent-remove: #4d5b6b;
+  --accent-action: #8a1c1c;
+  --success: #3f6b3f;
+  --danger: #8a1c1c;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+
+  --radius: 6px;
+  --shadow-card: 0 4px 16px rgba(36, 31, 24, 0.12);
+  --motion-ui: 180ms ease-out;
 }
 
 * {
@@ -9,12 +34,53 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-mono);
 }
 
-#app {
-  min-height: 100vh;
+.page {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-8);
+}
+
+.hero-head {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-1);
+  color: var(--ink);
+}
+
+.wordmark-accent {
+  color: var(--accent-action);
+}
+
+.tagline {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 1rem;
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.inputs,
+.output {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-2);
 }

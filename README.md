@@ -60,17 +60,18 @@ See [`docs/VISION.md`](docs/VISION.md) for the full design rationale,
 
 ```
 npm install
-npm run dev      # local dev server
-npm test         # vitest
-npm run lint     # eslint
-npm run build    # static production build (output: dist/)
+npm run dev       # local dev server
+npm test          # vitest unit tests
+npm run test:e2e  # playwright real-browser tests (npx playwright install first)
+npm run lint      # eslint
+npm run build     # static production build (output: dist/)
 ```
 
 ## Status
 
-The core "paste, diff, image" flow and copy/download/share are built and tested —
-see [`docs/BACKLOG.md`](docs/BACKLOG.md) for what's shipped vs. planned (language
-selection, large-input handling, and a full accessibility pass are still open).
+The full v1 scope is built and tested: paste/diff/image, copy/download/share, a
+language selector, large-input guardrails, and a full keyboard/accessibility pass.
+See [`docs/BACKLOG.md`](docs/BACKLOG.md) for the story-by-story breakdown.
 
 ## License
 

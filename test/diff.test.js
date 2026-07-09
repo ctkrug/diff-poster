@@ -24,4 +24,43 @@ describe("diffTokens", () => {
       { type: "add", value: "bar" },
     ]);
   });
+
+  it("handles a deleted word, marking it removed rather than replaced", () => {
+    const segments = diffTokens("foo bar", "foo");
+    expect(segments).toEqual([
+      { type: "equal", value: "foo" },
+      { type: "remove", value: " " },
+      { type: "remove", value: "bar" },
+    ]);
+  });
+
+  it("highlights a renamed identifier used twice, not the surrounding lines", () => {
+    const before = "greet(name);\ngreet(name);";
+    const after = "greet(person);\ngreet(person);";
+    const segments = diffTokens(before, after);
+    const changed = segments.filter((s) => s.type !== "equal");
+    expect(changed).toEqual([
+      { type: "remove", value: "name" },
+      { type: "add", value: "person" },
+      { type: "remove", value: "name" },
+      { type: "add", value: "person" },
+    ]);
+  });
+
+  it("diffs a multi-line change line-by-line without tokens bleeding across lines", () => {
+    const before = "function greet(name) {\n  return 'hi ' + name;\n}";
+    const after = "function greet(name) {\n  return `hello, ${name}!`;\n}";
+    const segments = diffTokens(before, after);
+
+    // The unchanged first and last lines carry no add/remove segments.
+    const firstLineEnd = segments.findIndex((s) => s.value === "\n");
+    const firstLine = segments.slice(0, firstLineEnd);
+    expect(firstLine.every((s) => s.type === "equal")).toBe(true);
+
+    const changed = segments.filter((s) => s.type !== "equal");
+    expect(changed.some((s) => s.type === "remove" && s.value === "'hi '")).toBe(true);
+    expect(changed.some((s) => s.type === "add" && s.value === "`hello, ${name}!`")).toBe(true);
+    // No newline token was itself flagged as changed - only the line's content differs.
+    expect(changed.some((s) => s.value === "\n")).toBe(false);
+  });
 });

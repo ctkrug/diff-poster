@@ -81,6 +81,15 @@ describe("renderDiffToCanvas", () => {
     expect(result.truncatedCount).toBeGreaterThan(0);
   });
 
+  it("pluralizes the truncation notice correctly for exactly one hidden line", () => {
+    const { canvas, calls } = makeStubCanvas();
+    // A tiny content height leaves room for zero visible rows, so a
+    // single-row diff is entirely truncated: truncatedCount === 1.
+    const result = renderDiffToCanvas(canvas, [{ type: "equal", value: "x" }], { height: 120 });
+    expect(result.truncatedCount).toBe(1);
+    expect(calls.fillText.some((call) => call.value === "… +1 more line")).toBe(true);
+  });
+
   it("does not throw for an empty diff", () => {
     const { canvas } = makeStubCanvas();
     expect(() => renderDiffToCanvas(canvas, [])).not.toThrow();

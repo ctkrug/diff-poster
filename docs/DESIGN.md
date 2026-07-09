@@ -48,10 +48,15 @@ the viewport width. No sidebar, no nav chrome above the fold beyond the wordmark
 a one-line tagline.
 
 **Phone (390×844):** single column, stacked top to bottom: wordmark/tagline → before
-pane → after pane → generate button → output card → actions. Panes collapse to a
-comfortable ~18vh each (scrollable if the snippet is long) so the output card is still
-reachable without excessive scrolling and still reads as the payoff, not an
-afterthought.
+pane → after pane → language selector + generate button → output card → actions. Panes
+collapse to a comfortable ~18vh each (scrollable if the snippet is long) so the output
+card is still reachable without excessive scrolling and still reads as the payoff, not
+an afterthought.
+
+The language selector (JavaScript / Python / plain text) sits directly above the
+generate button, bottom-aligned with it in a themed `<select>` — a custom chevron and
+paper-and-ink borders, never the native browser control. It stacks full-width above
+the button below 480px instead of squeezing two controls onto one cramped row.
 
 ## Signature detail
 

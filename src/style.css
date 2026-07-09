@@ -353,6 +353,69 @@ body {
   text-align: center;
 }
 
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--surface-2);
+}
+
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius);
+  background: var(--accent-action);
+  color: var(--surface-1);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--motion-ui), background var(--motion-ui),
+    box-shadow var(--motion-ui);
+}
+
+.footer-cta:hover {
+  background: #a52424;
+  box-shadow: 0 6px 20px rgba(36, 31, 24, 0.18);
+}
+
+.footer-cta:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.footer-cta:focus-visible {
+  outline: 2px solid var(--accent-action);
+  outline-offset: 3px;
+}
+
+.footer-portfolio {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--motion-ui), border-color var(--motion-ui);
+}
+
+.footer-portfolio:hover {
+  color: var(--accent-action);
+  border-bottom-color: var(--accent-action);
+}
+
+.footer-portfolio:focus-visible {
+  outline: 2px solid var(--accent-action);
+  outline-offset: 3px;
+}
+
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;

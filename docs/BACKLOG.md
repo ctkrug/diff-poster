@@ -82,7 +82,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
 
 ## Epic 3 — Language awareness and robustness
 
-- [ ] **Language selector for syntax highlighting.** A dropdown lets the user pick
+- [x] **Language selector for syntax highlighting.** A dropdown lets the user pick
   the snippet's language (JS, Python, and a plain-text fallback at minimum),
   affecting keyword/string/comment coloring in the output.
   - Selecting "Python" and pasting Python code highlights Python keywords (e.g.

@@ -65,3 +65,21 @@ test("prefers-reduced-motion disables the ink-blot reveal animation", async ({ p
   );
   expect(animationName).toBe("none");
 });
+
+test("repeated generate cycles produce no console errors", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (err) => errors.push(err.message));
+  page.on("console", (msg) => {
+    if (msg.type() === "error") errors.push(msg.text());
+  });
+
+  await page.goto("/");
+  await page.fill("#before-input", "const x = 1;");
+  await page.fill("#after-input", "const x = 2;");
+
+  for (let i = 0; i < 20; i++) {
+    await page.click("#generate-btn");
+  }
+
+  expect(errors).toEqual([]);
+});

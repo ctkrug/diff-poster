@@ -95,6 +95,17 @@ describe("renderDiffToCanvas", () => {
     expect(() => renderDiffToCanvas(canvas, [])).not.toThrow();
   });
 
+  it("does not throw rendering lone-surrogate emoji tokens", () => {
+    const { canvas } = makeStubCanvas();
+    const segments = [
+      { type: "equal", value: "const" },
+      { type: "equal", value: " " },
+      { type: "add", value: "\uD83C" },
+      { type: "add", value: "\uDF89" },
+    ];
+    expect(() => renderDiffToCanvas(canvas, segments)).not.toThrow();
+  });
+
   it("colors keywords per the selected language option", () => {
     const jsRun = makeStubCanvas();
     renderDiffToCanvas(jsRun.canvas, [{ type: "equal", value: "def" }], {

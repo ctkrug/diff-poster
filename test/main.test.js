@@ -176,6 +176,17 @@ describe("app bootstrap and generate flow", () => {
     expect(gutter.textContent).toBe("1\n2\n3");
   });
 
+  it("mirrors the gutter's scroll position to the textarea's", async () => {
+    await loadMain();
+    const before = document.getElementById("before-input");
+    const gutter = document.querySelector('[data-gutter="before"]');
+
+    before.scrollTop = 42;
+    before.dispatchEvent(new Event("scroll"));
+
+    expect(gutter.scrollTop).toBe(42);
+  });
+
   it("triggers a download with a timestamped filename on download click", async () => {
     document.getElementById("before-input").value = "const x = 1;";
     document.getElementById("after-input").value = "const x = 2;";

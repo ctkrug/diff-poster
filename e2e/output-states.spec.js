@@ -83,3 +83,17 @@ test("repeated generate cycles produce no console errors", async ({ page }) => {
 
   expect(errors).toEqual([]);
 });
+
+test("still renders and functions with the Google Fonts requests blocked", async ({ page }) => {
+  // The type stack declares system fallbacks precisely so a blocked/offline
+  // font CDN degrades to a readable page rather than a broken one.
+  await page.route("https://fonts.googleapis.com/**", (route) => route.abort());
+  await page.route("https://fonts.gstatic.com/**", (route) => route.abort());
+
+  await page.goto("/");
+  await page.fill("#before-input", "const x = 1;");
+  await page.fill("#after-input", "const x = 2;");
+  await page.click("#generate-btn");
+
+  await expect(page.locator("#output-canvas")).toBeVisible();
+});

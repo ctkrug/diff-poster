@@ -105,7 +105,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
   - The output region uses an ARIA live region so "generated" / "copied" /
     "downloaded" states are announced, not just visually shown.
 
-- [ ] **Design polish — responsive and motion-reduced pass.** The app is verified at
+- [x] **Design polish — responsive and motion-reduced pass.** The app is verified at
   768px in addition to 1440/390, and respects `prefers-reduced-motion`.
   - At 768px width the two-column desktop layout gracefully reflows without
     overlapping elements or clipped text.

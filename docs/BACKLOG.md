@@ -5,7 +5,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
 
 ## Epic 1 — Paste, diff, image (the wow moment)
 
-- [ ] **Paste before/after, get a rendered diff image.** Two textareas (before/after)
+- [x] **Paste before/after, get a rendered diff image.** Two textareas (before/after)
   and a generate action produce a single canvas-rendered image showing a token-level
   diff, styled per `docs/DESIGN.md`.
   - Pasting two differing snippets and clicking "Generate" renders an image within
@@ -15,7 +15,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
   - Pasting identical before/after text renders an image with zero highlighted
     tokens and a visible "no changes" indicator rather than a blank/broken image.
 
-- [ ] **Token-level diff correctness.** The diff engine correctly classifies
+- [x] **Token-level diff correctness.** The diff engine correctly classifies
   equal/added/removed tokens across realistic code edits (renames, reordering,
   multi-line changes), not just single-word substitutions.
   - A renamed identifier used twice highlights both occurrences, not the whole
@@ -25,7 +25,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
   - Unit tests cover: no-op diff, single-token change, insertion, deletion, and a
     multi-line change, all green in CI.
 
-- [ ] **Editor-style syntax highlighting in the output.** The rendered image looks
+- [x] **Editor-style syntax highlighting in the output.** The rendered image looks
   like a screenshot from a real editor (monospace font, syntax colors for at least
   JS/Python-shaped code, subtle line numbers, rounded window chrome) rather than
   flat black-on-white text.
@@ -34,7 +34,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
   - The output card includes a window-chrome treatment (rounded corners + subtle
     title bar or inset) consistent with `docs/DESIGN.md`.
 
-- [ ] **Social-sized output by default.** The generated image defaults to a
+- [x] **Social-sized output by default.** The generated image defaults to a
   tweet/Slack-friendly aspect ratio and resolution without any size configuration
   required from the user.
   - The default exported PNG's pixel dimensions match the documented social-share
@@ -42,7 +42,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
   - Long snippets that exceed the default height either scroll within a fixed frame
     or scale down, but never silently crop content without indication.
 
-- [ ] **Design polish — landing/app shell.** The app matches `docs/DESIGN.md`'s
+- [x] **Design polish — landing/app shell.** The app matches `docs/DESIGN.md`'s
   paper-and-ink direction: real tokens, both fonts loaded, themed input panes and
   buttons, and the ink-blot reveal on generate.
   - At 1440px and 390px widths the layout matches the composition described in

@@ -70,6 +70,18 @@ describe("fitRows", () => {
     });
   });
 
+  it("still uses the default size when row count exactly fills the default-size capacity", () => {
+    // availableHeight 200 / DEFAULT_LINE_HEIGHT 24 = 8 rows exactly - the
+    // boundary between "fits at default size" and "needs shrinking".
+    const result = fitRows(8, 200);
+    expect(result).toEqual({
+      fontSize: 16,
+      lineHeight: 24,
+      visibleRowCount: 8,
+      truncatedCount: 0,
+    });
+  });
+
   it("shrinks proportionally when a modest reduction makes it fit", () => {
     const result = fitRows(14, 250);
     expect(result.truncatedCount).toBe(0);

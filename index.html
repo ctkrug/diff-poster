@@ -6,7 +6,13 @@
     <title>Diff Poster — paste a diff, get a shareable image</title>
     <meta
       name="description"
-      content="Paste a before/after code snippet and get a single beautiful, shareable diff image. No login, no export dialog."
+      content="Paste a before/after code snippet and get a single clean, shareable image of just the change: token-level diff, sized for social, no login."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Diff Poster — paste a diff, get a shareable image" />
+    <meta
+      property="og:description"
+      content="Turn a before/after code snippet into one clean, share-sized image that highlights exactly which tokens changed. Runs in your browser, no login."
     />
     <link
       rel="icon"
@@ -73,7 +79,7 @@
             </button>
           </div>
           <p class="privacy-note">
-            Everything runs in your browser — nothing is uploaded or stored.
+            Everything runs in your browser. Nothing is uploaded or stored.
           </p>
         </section>
 
@@ -101,6 +107,80 @@
           <p class="output-status" id="output-status" role="status" aria-live="polite"></p>
         </section>
       </main>
+
+      <section class="about" aria-label="About Diff Poster">
+        <div class="about-col">
+          <h2 class="about-heading">Share a code change, not a screenshot</h2>
+          <p>
+            Diff Poster turns a before/after snippet into a single clean image
+            of just the change. Paste the original code in one pane and the
+            edited code in the other, pick the language, and it renders a
+            token-level diff styled like a tidy editor window, sized 1200×675
+            for Twitter, Bluesky, and Slack previews. Copy it to your clipboard
+            or download the PNG. The tokenizing, diffing, and image rendering
+            all happen in your browser; nothing is uploaded.
+          </p>
+
+          <h2 class="about-heading">Why token-level, not line-level</h2>
+          <p>
+            Most diff screenshots paint a whole changed line red or green. When
+            you rewrite <code>return 'hi ' + name;</code> as
+            <code>return `hello, ${name}!`;</code>, a line diff just says "this
+            line changed" and hides what actually changed. Diff Poster diffs at
+            the token level (identifiers, operators, literals, strings), so
+            only the swapped tokens are marked. The reader sees the exact
+            substitution, which is the whole reason to share the change.
+          </p>
+
+          <h2 class="about-heading">How to use it</h2>
+          <ol class="about-steps">
+            <li>Paste the original code into Before, the edited code into After.</li>
+            <li>Choose JavaScript, Python, or plain text for syntax coloring.</li>
+            <li>Click Generate image.</li>
+            <li>Copy the image to your clipboard, or download the PNG.</li>
+          </ol>
+        </div>
+
+        <div class="about-col">
+          <h2 class="about-heading">FAQ</h2>
+          <dl class="faq">
+            <dt>Is my code uploaded anywhere?</dt>
+            <dd>
+              No. Every step runs in your browser. There is no backend and
+              nothing is stored; close the tab and nothing is kept.
+            </dd>
+
+            <dt>Which languages are supported?</dt>
+            <dd>
+              Syntax coloring covers JavaScript and Python, plus a plain-text
+              mode for anything else. The diff itself is language-agnostic, so
+              plain text still highlights exactly which tokens changed.
+            </dd>
+
+            <dt>How big can a snippet be?</dt>
+            <dd>
+              It is built for function-sized changes, not whole files. A very
+              large paste shows a size notice instead of freezing the tab, and
+              a long snippet scales down or shows a "+N more lines" marker
+              rather than cropping silently.
+            </dd>
+
+            <dt>What size is the image?</dt>
+            <dd>
+              1200×675 pixels, the 16:9 frame Twitter, Bluesky, and Slack use
+              for previews, rendered at your screen's pixel density so it stays
+              crisp on retina displays.
+            </dd>
+
+            <dt>Can I copy straight to my clipboard?</dt>
+            <dd>
+              Yes, where the browser supports image clipboard writes. Where it
+              doesn't, the Copy button is clearly disabled and Download PNG
+              always works.
+            </dd>
+          </dl>
+        </div>
+      </section>
 
       <footer class="site-footer">
         <a class="footer-cta" href="https://github.com/ctkrug/diff-poster">

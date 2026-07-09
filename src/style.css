@@ -353,6 +353,78 @@ body {
   text-align: center;
 }
 
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--surface-2);
+}
+
+.about-col {
+  max-width: 60ch;
+}
+
+.about-heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--ink);
+  margin: var(--space-3) 0 var(--space-1);
+}
+
+.about-col > .about-heading:first-child {
+  margin-top: 0;
+}
+
+.about p {
+  margin: 0 0 var(--space-2);
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.about code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--ink);
+  background: var(--surface-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.about-steps {
+  margin: 0;
+  padding-left: 1.4em;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.about-steps li {
+  margin-bottom: var(--space-1);
+}
+
+.faq {
+  margin: 0;
+}
+
+.faq dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+  margin-top: var(--space-2);
+}
+
+.faq dd {
+  margin: var(--space-1) 0 var(--space-2);
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
 .site-footer {
   display: flex;
   flex-wrap: wrap;
@@ -419,6 +491,11 @@ body {
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+
+  .about {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
   }
 
   .editor {

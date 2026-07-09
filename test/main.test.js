@@ -230,4 +230,35 @@ describe("app bootstrap and generate flow", () => {
     expect(writtenItems).not.toBeNull();
     expect(document.getElementById("output-status").textContent).toMatch(/copied/i);
   });
+
+  it("shows a designed error status when the download blob export fails", async () => {
+    document.getElementById("before-input").value = "const x = 1;";
+    document.getElementById("after-input").value = "const x = 2;";
+    const { api } = await loadMain();
+    api.generate();
+
+    HTMLCanvasElement.prototype.toBlob = function toBlob(callback) {
+      callback(null);
+    };
+
+    await api.download();
+
+    expect(document.getElementById("output-status").textContent).toMatch(/couldn't download/i);
+  });
+
+  it("shows a designed error status when the clipboard write rejects", async () => {
+    stubClipboardApis({
+      write: async () => {
+        throw new Error("clipboard denied");
+      },
+    });
+    document.getElementById("before-input").value = "const x = 1;";
+    document.getElementById("after-input").value = "const x = 2;";
+    const { api } = await loadMain();
+    api.generate();
+
+    await api.copyImage();
+
+    expect(document.getElementById("output-status").textContent).toMatch(/couldn't copy/i);
+  });
 });

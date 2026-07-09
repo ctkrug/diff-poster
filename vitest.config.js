@@ -9,5 +9,10 @@ export default defineConfig({
     // vitest's default include glob would otherwise try (and fail) to
     // collect them as unit tests.
     exclude: ["**/node_modules/**", "e2e/**"],
+    coverage: {
+      // Coverage should measure app source, not tooling config files that
+      // happen to sit at the repo root (vite/vitest/playwright configs).
+      include: ["src/**"],
+    },
   },
 });

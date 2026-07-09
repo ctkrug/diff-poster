@@ -107,6 +107,24 @@ describe("app bootstrap and generate flow", () => {
     expect(document.getElementById("output-status").textContent).toMatch(/generated/i);
   });
 
+  it("stays in a consistent success state under rapid double-clicking of generate", async () => {
+    document.getElementById("before-input").value = "const x = 1;";
+    document.getElementById("after-input").value = "const x = 2;";
+    await loadMain();
+
+    const generateBtn = document.getElementById("generate-btn");
+    expect(() => {
+      generateBtn.click();
+      generateBtn.click();
+      generateBtn.click();
+    }).not.toThrow();
+
+    const card = document.getElementById("output-card");
+    expect(card.dataset.state).toBe("success");
+    expect(document.getElementById("output-canvas").hidden).toBe(false);
+    expect(document.getElementById("output-actions").hidden).toBe(false);
+  });
+
   it("reports no changes when before and after are identical", async () => {
     document.getElementById("before-input").value = "const x = 1;";
     document.getElementById("after-input").value = "const x = 1;";
@@ -129,6 +147,24 @@ describe("app bootstrap and generate flow", () => {
     expect(document.getElementById("output-error").hidden).toBe(false);
     expect(document.getElementById("output-error").textContent.length).toBeGreaterThan(0);
     expect(document.getElementById("output-canvas").hidden).toBe(true);
+  });
+
+  it("recovers to the success state on a valid retry after an error", async () => {
+    document.getElementById("before-input").value = "const x = 1;";
+    document.getElementById("after-input").value = "";
+    await loadMain();
+
+    document.getElementById("generate-btn").click();
+    expect(document.getElementById("output-card").dataset.state).toBe("error");
+
+    document.getElementById("after-input").value = "const x = 2;";
+    document.getElementById("generate-btn").click();
+
+    const card = document.getElementById("output-card");
+    expect(card.dataset.state).toBe("success");
+    expect(document.getElementById("output-error").hidden).toBe(true);
+    expect(document.getElementById("output-canvas").hidden).toBe(false);
+    expect(document.getElementById("output-actions").hidden).toBe(false);
   });
 
   it("shows the same error state when a pane is only whitespace", async () => {

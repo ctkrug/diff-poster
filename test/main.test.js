@@ -5,8 +5,20 @@ import { beforeEach, describe, expect, it } from "vitest";
 function stubCanvasContext() {
   HTMLCanvasElement.prototype.getContext = () => ({
     clearRect() {},
+    fillRect() {},
     fillText() {},
     measureText: () => ({ width: 0 }),
+    beginPath() {},
+    moveTo() {},
+    lineTo() {},
+    arcTo() {},
+    arc() {},
+    closePath() {},
+    fill() {},
+    stroke() {},
+    save() {},
+    restore() {},
+    setTransform() {},
   });
 }
 

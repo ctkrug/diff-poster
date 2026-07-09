@@ -84,3 +84,75 @@ body {
   flex-direction: column;
   gap: var(--space-2);
 }
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.pane-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.editor {
+  display: flex;
+  height: 45vh;
+  min-height: 220px;
+  background: var(--surface-1);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.gutter {
+  flex: 0 0 auto;
+  width: 40px;
+  padding: var(--space-2) 0;
+  text-align: right;
+  color: var(--ink-muted);
+  background: var(--surface-2);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+  padding-right: var(--space-1);
+}
+
+.pane-input {
+  flex: 1 1 auto;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  padding: var(--space-2);
+  transition: background var(--motion-ui);
+}
+
+.pane-input::placeholder {
+  color: var(--ink-muted);
+}
+
+.pane-input:hover {
+  background: rgba(36, 31, 24, 0.02);
+}
+
+.pane-input:focus-visible {
+  background: var(--surface-1);
+  box-shadow: inset 0 0 0 2px var(--accent-action);
+}
+
+.editor:focus-within {
+  border-color: var(--accent-action);
+}

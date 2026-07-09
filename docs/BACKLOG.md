@@ -52,27 +52,27 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
 
 ## Epic 2 — Export and share
 
-- [ ] **Copy image to clipboard.** One click copies the generated PNG to the system
+- [x] **Copy image to clipboard.** One click copies the generated PNG to the system
   clipboard via the Clipboard API, no intermediate dialog.
   - Clicking "Copy image" after a successful generate populates the clipboard with a
     `image/png` blob (verified via a Clipboard API mock in tests).
   - If the Clipboard API is unavailable (unsupported browser/context), the button is
     replaced or disabled with a visible explanation rather than failing silently.
 
-- [ ] **Download as PNG.** One click downloads the generated image as a `.png` file
+- [x] **Download as PNG.** One click downloads the generated image as a `.png` file
   with a sensible default filename.
   - Clicking "Download" triggers a file download named like
     `diff-poster-YYYYMMDD-HHMMSS.png` (or similar deterministic pattern).
   - The downloaded file's pixel dimensions match what was rendered on screen.
 
-- [ ] **Shareable "no server" guarantee is visible.** The UI communicates that
+- [x] **Shareable "no server" guarantee is visible.** The UI communicates that
   nothing is uploaded or stored, reinforcing the no-login/no-backend value prop.
   - The page includes a visible, non-buried statement that processing happens
     entirely in the browser and nothing is sent to a server.
   - No network request is made to any first-party backend when generating an image
     (verified by inspecting network calls in a manual or automated check).
 
-- [ ] **Design polish — output card states.** The output card has a designed empty
+- [x] **Design polish — output card states.** The output card has a designed empty
   state (before first generate), a designed error state (e.g. one input empty), and
   the success state with copy/download actions — none of them a blank box.
   - Loading the app fresh shows a designed empty-state placeholder in the output

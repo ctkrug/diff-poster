@@ -301,6 +301,13 @@ body {
   gap: var(--space-2);
 }
 
+/* An author `display` declaration always beats the UA [hidden] rule,
+   regardless of matching specificity, so the flex layout above must be
+   re-disabled explicitly whenever the hidden attribute is present. */
+.output-actions[hidden] {
+  display: none;
+}
+
 .action-btn {
   flex: 1 1 0;
   min-height: 44px;

@@ -52,3 +52,16 @@ test("no viewport overflows horizontally after a generate", async ({ page }, tes
   }));
   expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
 });
+
+test("prefers-reduced-motion disables the ink-blot reveal animation", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await page.fill("#before-input", "const x = 1;");
+  await page.fill("#after-input", "const x = 2;");
+  await page.click("#generate-btn");
+
+  const animationName = await page.evaluate(
+    () => getComputedStyle(document.querySelector(".output-canvas")).animationName,
+  );
+  expect(animationName).toBe("none");
+});

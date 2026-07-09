@@ -33,6 +33,7 @@ function renderShell() {
       <canvas id="output-canvas" hidden></canvas>
     </div>
     <div id="output-actions" hidden>
+      <button id="copy-btn" type="button"></button>
       <button id="download-btn" type="button"></button>
     </div>
     <p id="output-status"></p>
@@ -47,6 +48,21 @@ function stubDownloadApis() {
   window.URL.revokeObjectURL = () => {};
 }
 
+function clearClipboardApis() {
+  delete window.navigator.clipboard;
+  delete window.ClipboardItem;
+}
+
+function stubClipboardApis({ write = async () => {} } = {}) {
+  Object.defineProperty(window.navigator, "clipboard", {
+    value: { write },
+    configurable: true,
+  });
+  window.ClipboardItem = function ClipboardItem(data) {
+    this.data = data;
+  };
+}
+
 async function loadMain() {
   vi.resetModules();
   return import("../src/main.js");
@@ -57,6 +73,7 @@ describe("app bootstrap and generate flow", () => {
     renderShell();
     stubCanvasContext();
     stubDownloadApis();
+    clearClipboardApis();
   });
 
   afterEach(() => {
@@ -154,5 +171,34 @@ describe("app bootstrap and generate flow", () => {
     expect(document.getElementById("output-status").textContent).toMatch(/download/i);
 
     document.createElement = originalCreateElement;
+  });
+
+  it("disables copy with a visible explanation when the Clipboard API is unavailable", async () => {
+    await loadMain();
+    const copyBtn = document.getElementById("copy-btn");
+
+    expect(copyBtn.disabled).toBe(true);
+    expect(copyBtn.textContent.length).toBeGreaterThan(0);
+    expect(copyBtn.title.length).toBeGreaterThan(0);
+  });
+
+  it("copies the rendered image via the Clipboard API when supported", async () => {
+    let writtenItems = null;
+    stubClipboardApis({
+      write: async (items) => {
+        writtenItems = items;
+      },
+    });
+    document.getElementById("before-input").value = "const x = 1;";
+    document.getElementById("after-input").value = "const x = 2;";
+    const { api } = await loadMain();
+    api.generate();
+
+    expect(document.getElementById("copy-btn").disabled).toBe(false);
+
+    await api.copyImage();
+
+    expect(writtenItems).not.toBeNull();
+    expect(document.getElementById("output-status").textContent).toMatch(/copied/i);
   });
 });

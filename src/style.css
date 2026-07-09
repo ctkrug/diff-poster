@@ -156,3 +156,47 @@ body {
 .editor:focus-within {
   border-color: var(--accent-action);
 }
+
+.generate-btn {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: var(--space-1) var(--space-3);
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent-action);
+  color: var(--surface-1);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--motion-ui), background var(--motion-ui),
+    box-shadow var(--motion-ui);
+}
+
+.generate-btn:hover {
+  background: #a52424;
+  box-shadow: 0 6px 20px rgba(36, 31, 24, 0.18);
+}
+
+.generate-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.generate-btn:focus-visible {
+  outline: 2px solid var(--accent-action);
+  outline-offset: 3px;
+}
+
+.generate-btn:disabled {
+  background: var(--surface-2);
+  color: var(--ink-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.privacy-note {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+}

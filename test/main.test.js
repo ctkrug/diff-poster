@@ -32,9 +32,19 @@ function renderShell() {
       <p id="output-error" hidden></p>
       <canvas id="output-canvas" hidden></canvas>
     </div>
-    <div id="output-actions" hidden></div>
+    <div id="output-actions" hidden>
+      <button id="download-btn" type="button"></button>
+    </div>
     <p id="output-status"></p>
   `;
+}
+
+function stubDownloadApis() {
+  HTMLCanvasElement.prototype.toBlob = function toBlob(callback) {
+    callback({ type: "image/png" });
+  };
+  window.URL.createObjectURL = () => "blob:stub";
+  window.URL.revokeObjectURL = () => {};
 }
 
 async function loadMain() {
@@ -46,6 +56,7 @@ describe("app bootstrap and generate flow", () => {
   beforeEach(() => {
     renderShell();
     stubCanvasContext();
+    stubDownloadApis();
   });
 
   afterEach(() => {
@@ -117,5 +128,31 @@ describe("app bootstrap and generate flow", () => {
     before.dispatchEvent(new Event("input"));
 
     expect(gutter.textContent).toBe("1\n2\n3");
+  });
+
+  it("triggers a download with a timestamped filename on download click", async () => {
+    document.getElementById("before-input").value = "const x = 1;";
+    document.getElementById("after-input").value = "const x = 2;";
+    const { api } = await loadMain();
+    api.generate();
+
+    let downloadedName = null;
+    const originalCreateElement = document.createElement.bind(document);
+    document.createElement = (tag) => {
+      const el = originalCreateElement(tag);
+      if (tag === "a") {
+        el.click = () => {
+          downloadedName = el.download;
+        };
+      }
+      return el;
+    };
+
+    await api.download();
+
+    expect(downloadedName).toMatch(/^diff-poster-\d{8}-\d{6}\.png$/);
+    expect(document.getElementById("output-status").textContent).toMatch(/download/i);
+
+    document.createElement = originalCreateElement;
   });
 });

@@ -11,7 +11,76 @@
     <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <div class="page">
+      <header class="hero-head">
+        <h1 class="wordmark">Diff<span class="wordmark-accent">Poster</span></h1>
+        <p class="tagline">
+          Paste a before/after snippet, get a shareable diff image. No login,
+          no export dialog.
+        </p>
+      </header>
+
+      <main class="layout">
+        <section class="inputs" aria-label="Code input">
+          <div class="pane" data-pane="before">
+            <label class="pane-label" for="before-input">Before</label>
+            <div class="editor">
+              <div class="gutter" data-gutter="before" aria-hidden="true">1</div>
+              <textarea
+                id="before-input"
+                class="pane-input"
+                spellcheck="false"
+                placeholder="Paste the original code…"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="pane" data-pane="after">
+            <label class="pane-label" for="after-input">After</label>
+            <div class="editor">
+              <div class="gutter" data-gutter="after" aria-hidden="true">1</div>
+              <textarea
+                id="after-input"
+                class="pane-input"
+                spellcheck="false"
+                placeholder="Paste the changed code…"
+              ></textarea>
+            </div>
+          </div>
+
+          <button id="generate-btn" class="generate-btn" type="button">
+            Generate image
+          </button>
+          <p class="privacy-note">
+            Everything runs in your browser — nothing is uploaded or stored.
+          </p>
+        </section>
+
+        <section class="output" aria-label="Generated diff image">
+          <div class="output-card" id="output-card" data-state="empty">
+            <p class="output-empty" id="output-empty">
+              Paste code on the left and hit Generate.
+            </p>
+            <p class="output-error" id="output-error" role="alert" hidden></p>
+            <canvas
+              id="output-canvas"
+              class="output-canvas"
+              hidden
+            ></canvas>
+          </div>
+
+          <div class="output-actions" id="output-actions" hidden>
+            <button id="copy-btn" class="action-btn" type="button">
+              Copy image
+            </button>
+            <button id="download-btn" class="action-btn" type="button">
+              Download PNG
+            </button>
+          </div>
+          <p class="output-status" id="output-status" role="status" aria-live="polite"></p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>

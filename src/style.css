@@ -329,3 +329,15 @@ body {
     flex-direction: column;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .output-card[data-state="success"] .output-canvas {
+    animation: none;
+  }
+
+  .generate-btn,
+  .action-btn,
+  .pane-input {
+    transition: none;
+  }
+}

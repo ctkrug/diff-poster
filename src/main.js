@@ -1,6 +1,7 @@
 import { diffTokens } from "./diff/diff.js";
 import { renderDiffToCanvas } from "./render/canvas.js";
 import { buildDownloadFilename, canvasToBlob } from "./export/canvasExport.js";
+import { isClipboardImageSupported } from "./export/clipboardSupport.js";
 
 function updateGutter(textarea, gutter) {
   const lineCount = textarea.value.split("\n").length;
@@ -32,6 +33,7 @@ export function mount(root = document) {
   const outputActions = root.getElementById("output-actions");
   const outputStatus = root.getElementById("output-status");
   const downloadBtn = root.getElementById("download-btn");
+  const copyBtn = root.getElementById("copy-btn");
 
   function setOutputState(state) {
     outputCard.dataset.state = state;
@@ -94,12 +96,30 @@ export function mount(root = document) {
     }
   }
 
+  async function copyImage() {
+    try {
+      const blob = await canvasToBlob(outputCanvas);
+      await navigator.clipboard.write([new window.ClipboardItem({ "image/png": blob })]);
+      outputStatus.textContent = "Copied to clipboard.";
+    } catch {
+      outputStatus.textContent = "Couldn't copy the image — try downloading instead.";
+    }
+  }
+
+  if (isClipboardImageSupported()) {
+    copyBtn.addEventListener("click", copyImage);
+  } else {
+    copyBtn.disabled = true;
+    copyBtn.textContent = "Copy unavailable";
+    copyBtn.title = "Clipboard image copy isn't supported in this browser — use Download instead.";
+  }
+
   wirePane(beforeInput, beforeGutter);
   wirePane(afterInput, afterGutter);
   generateBtn.addEventListener("click", generate);
   downloadBtn.addEventListener("click", download);
 
-  return { generate, download };
+  return { generate, download, copyImage };
 }
 
 export const api = mount();

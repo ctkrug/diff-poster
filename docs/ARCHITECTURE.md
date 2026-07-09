@@ -20,8 +20,9 @@ segmentsToRows()      src/render/layout.js  — split the flat stream into rows 
 fitRows()             src/render/layout.js  — pure sizing: rows + available height →
                                               {fontSize, lineHeight, visibleRowCount,
                                               truncatedCount}
-classifyToken()       src/render/highlight.js — token → syntax category (keyword/
-                                              string/comment/number/identifier/…)
+classifyToken()       src/render/highlight.js — token + selected language →
+                                              syntax category (keyword/string/
+                                              comment/number/identifier/…)
         ▼
 renderDiffToCanvas() src/render/canvas.js   — draws the window-chrome card, line
                                               numbers, syntax-colored + diff-
@@ -53,7 +54,7 @@ without simulating DOM events.
 | `src/render/canvas.js` | Draws everything: DPR-scaled sizing, window chrome, line numbers, syntax+diff coloring, truncation notice, no-changes badge. |
 | `src/export/canvasExport.js` | `canvasToBlob` (promise wrapper over `canvas.toBlob`) and `buildDownloadFilename` (`diff-poster-YYYYMMDD-HHMMSS.png`). |
 | `src/export/clipboardSupport.js` | `isClipboardImageSupported()` — feature-detects `navigator.clipboard.write` + `window.ClipboardItem` so the UI can disable Copy up front instead of failing on click. |
-| `src/main.js` | DOM wiring: panes, gutters, generate/copy/download buttons, output-card state machine. |
+| `src/main.js` | DOM wiring: panes, gutters, language select, generate/copy/download buttons, output-card state machine. |
 | `src/style.css` | Design tokens and component styling per `docs/DESIGN.md` (paper-and-ink direction). |
 
 ## Run / test
@@ -62,6 +63,12 @@ without simulating DOM events.
 - `npm run build` — static production build (relative `base: "./"` so it works
   from a subpath like `apps.charliekrug.com/diff-poster/`); output in `dist/`.
 - `npm test` — vitest (jsdom environment); `npm run lint` — eslint.
+- `npm run test:e2e` — Playwright, against a real Chromium render at the
+  three declared breakpoints (`e2e/`, config in `playwright.config.js`). jsdom
+  never computes CSS, so it can't catch an author stylesheet rule beating the
+  UA `[hidden]` rule, `:focus-visible` styling, `prefers-reduced-motion`, or
+  real layout overflow — that whole class of bug lives here instead. Run
+  separately from `npm test`; both run in CI.
 
 ## Notable design decisions
 
@@ -76,5 +83,7 @@ without simulating DOM events.
   syntax-category text color (`classifyToken`) *and*, independently, an add/remove
   background tint. This is what lets the output look like real syntax-highlighted
   code while still showing exactly what changed.
-- **No language selector yet.** The syntax classifier uses one merged JS+Python
-  keyword set rather than per-language grammars (Epic 3 backlog item).
+- **Language selector, not per-language grammars.** `classifyToken` takes an
+  optional `language` ("javascript" | "python" | "plaintext") that narrows
+  which keyword set applies; omitted, it falls back to a merged JS+Python
+  set. "plaintext" disables syntax coloring entirely rather than guessing.

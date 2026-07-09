@@ -136,6 +136,20 @@ describe("app bootstrap and generate flow", () => {
     expect(document.getElementById("output-card").dataset.state).toBe("error");
   });
 
+  it("shows a designed error instead of hanging on a hostile-sized paste", async () => {
+    const huge = Array(4000).fill("token").join(" ");
+    document.getElementById("before-input").value = huge;
+    document.getElementById("after-input").value = huge;
+    await loadMain();
+
+    document.getElementById("generate-btn").click();
+
+    const card = document.getElementById("output-card");
+    expect(card.dataset.state).toBe("error");
+    expect(document.getElementById("output-error").textContent).toMatch(/too large/i);
+    expect(document.getElementById("output-canvas").hidden).toBe(true);
+  });
+
   it("keeps line-number gutters in sync as the user types", async () => {
     await loadMain();
     const before = document.getElementById("before-input");

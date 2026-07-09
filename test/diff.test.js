@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { diffTokens } from "../src/diff/diff.js";
+import { DiffTooLargeError, diffTokens } from "../src/diff/diff.js";
 
 describe("diffTokens", () => {
   it("marks identical text as entirely equal", () => {
@@ -62,5 +62,19 @@ describe("diffTokens", () => {
     expect(changed.some((s) => s.type === "add" && s.value === "`hello, ${name}!`")).toBe(true);
     // No newline token was itself flagged as changed - only the line's content differs.
     expect(changed.some((s) => s.value === "\n")).toBe(false);
+  });
+
+  it("rejects pastes far beyond the LCS table's safe size instead of freezing", () => {
+    // The DP table is O(tokens(before) * tokens(after)); a few thousand
+    // tokens per side is enough to hang a tab for seconds. A hostile-sized
+    // paste must fail fast with a recognizable error instead of grinding.
+    const huge = Array(4000).fill("token").join(" ");
+    expect(() => diffTokens(huge, huge)).toThrow(DiffTooLargeError);
+  });
+
+  it("still diffs realistically large-but-reasonable snippets", () => {
+    const before = Array(200).fill("const x = 1;").join("\n");
+    const after = Array(200).fill("const x = 2;").join("\n");
+    expect(() => diffTokens(before, after)).not.toThrow();
   });
 });

@@ -98,7 +98,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
   - Pasting binary-looking or non-UTF-8-safe garbled text does not throw an
     unhandled exception; the app shows a graceful inline error.
 
-- [ ] **Keyboard and accessibility pass.** The full paste-to-download flow is usable
+- [x] **Keyboard and accessibility pass.** The full paste-to-download flow is usable
   by keyboard alone and announces state changes to assistive tech.
   - Tab order moves logically through before-pane → after-pane → generate →
     copy/download without keyboard traps.

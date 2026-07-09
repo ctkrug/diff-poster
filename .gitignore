@@ -1,6 +1,6 @@
 node_modules/
 dist/
-site/dist/
+site/
 coverage/
 *.log
 npm-debug.log*

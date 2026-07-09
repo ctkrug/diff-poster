@@ -61,7 +61,7 @@ without simulating DOM events.
 
 - `npm run dev` — Vite dev server.
 - `npm run build` — static production build (relative `base: "./"` so it works
-  from a subpath like `apps.charliekrug.com/diff-poster/`); output in `dist/`.
+  from a subpath like `apps.charliekrug.com/diff-poster/`); output in `site/`.
 - `npm test` — vitest (jsdom environment); `npm run lint` — eslint.
 - `npm run test:e2e` — Playwright, against a real Chromium render at the
   three declared breakpoints (`e2e/`, config in `playwright.config.js`). jsdom

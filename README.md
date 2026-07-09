@@ -64,7 +64,7 @@ npm run dev       # local dev server
 npm test          # vitest unit tests
 npm run test:e2e  # playwright real-browser tests (npx playwright install first)
 npm run lint      # eslint
-npm run build     # static production build (output: dist/)
+npm run build     # static production build (output: site/)
 ```
 
 ## Status

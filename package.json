@@ -11,12 +11,14 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
     "lint": "eslint ."
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^9.39.4",
     "globals": "^15.15.0",

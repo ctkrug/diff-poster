@@ -90,7 +90,7 @@ first story of Epic 1 is the wow moment — it must be reachable before anything
   - The plain-text fallback still renders a correct token-level diff with no syntax
     coloring, never a crash, for languages not explicitly supported.
 
-- [ ] **Large/pathological input handling.** The app stays responsive and gives
+- [x] **Large/pathological input handling.** The app stays responsive and gives
   clear feedback when pasted input is unusually large or malformed.
   - Pasting a snippet far beyond the intended "function-sized" use case (e.g.
     several thousand lines) shows a visible size-limit message instead of freezing

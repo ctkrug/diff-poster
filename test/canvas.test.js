@@ -8,7 +8,7 @@ function makeStubCanvas() {
     clearRect() {},
     fillRect() {},
     fillText(value, x, y) {
-      calls.fillText.push({ value, x, y });
+      calls.fillText.push({ value, x, y, color: ctx.fillStyle });
     },
     measureText: (value) => ({ width: value.length * 8 }),
     beginPath() {},
@@ -77,5 +77,40 @@ describe("renderDiffToCanvas", () => {
   it("does not throw for an empty diff", () => {
     const { canvas } = makeStubCanvas();
     expect(() => renderDiffToCanvas(canvas, [])).not.toThrow();
+  });
+
+  it("colors keywords per the selected language option", () => {
+    const jsRun = makeStubCanvas();
+    renderDiffToCanvas(jsRun.canvas, [{ type: "equal", value: "def" }], {
+      language: "javascript",
+    });
+    const jsDefColor = jsRun.calls.fillText.find((c) => c.value === "def")?.color;
+
+    const pyRun = makeStubCanvas();
+    renderDiffToCanvas(pyRun.canvas, [{ type: "equal", value: "def" }], {
+      language: "python",
+    });
+    const pyDefColor = pyRun.calls.fillText.find((c) => c.value === "def")?.color;
+
+    expect(jsDefColor).not.toBe(pyDefColor);
+  });
+
+  it("renders no syntax coloring at all in plaintext mode", () => {
+    const { canvas, calls } = makeStubCanvas();
+    renderDiffToCanvas(
+      canvas,
+      [
+        { type: "equal", value: "return" },
+        { type: "equal", value: " " },
+        { type: "equal", value: '"hi"' },
+      ],
+      { language: "plaintext" },
+    );
+    const tokenColors = new Set(
+      calls.fillText
+        .filter((c) => ["return", " ", '"hi"'].includes(c.value))
+        .map((c) => c.color),
+    );
+    expect(tokenColors.size).toBe(1);
   });
 });

@@ -45,6 +45,7 @@ const CHAR_WIDTH_RATIO = 0.62; // monospace glyph advance as a fraction of font 
 export function renderDiffToCanvas(canvas, segments, options = {}) {
   const width = options.width ?? OUTPUT_WIDTH;
   const height = options.height ?? OUTPUT_HEIGHT;
+  const language = options.language;
   const dpr =
     options.devicePixelRatio ??
     (typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1);
@@ -78,6 +79,7 @@ export function renderDiffToCanvas(canvas, segments, options = {}) {
     top: contentTop,
     left: MARGIN + CONTENT_PADDING + GUTTER_WIDTH,
     gutterRight: MARGIN + CONTENT_PADDING + GUTTER_WIDTH - 12,
+    language,
   });
 
   if (truncatedCount > 0) {
@@ -98,7 +100,7 @@ export function renderDiffToCanvas(canvas, segments, options = {}) {
 }
 
 function drawRows(ctx, rows, visibleRowCount, layout) {
-  const { fontSize, lineHeight, top, left, gutterRight } = layout;
+  const { fontSize, lineHeight, top, left, gutterRight, language } = layout;
   const charWidth = fontSize * CHAR_WIDTH_RATIO;
   const lineNumberFont = `${Math.max(10, fontSize - 2)}px ${FONT_STACK}`;
   const codeFont = `${fontSize}px ${FONT_STACK}`;
@@ -128,7 +130,7 @@ function drawRows(ctx, rows, visibleRowCount, layout) {
         ctx.fillRect(x, y - 1, tokenWidth, lineHeight - 2);
       }
 
-      ctx.fillStyle = SYNTAX_COLORS[classifyToken(token.value)] ?? COLORS.ink;
+      ctx.fillStyle = SYNTAX_COLORS[classifyToken(token.value, language)] ?? COLORS.ink;
       ctx.fillText(token.value, x, y);
 
       if (token.type === "remove") {

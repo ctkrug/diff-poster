@@ -26,6 +26,7 @@ export function mount(root = document) {
   const beforeGutter = root.querySelector('[data-gutter="before"]');
   const afterGutter = root.querySelector('[data-gutter="after"]');
   const generateBtn = root.getElementById("generate-btn");
+  const languageSelect = root.getElementById("language-select");
   const outputCard = root.getElementById("output-card");
   const outputEmpty = root.getElementById("output-empty");
   const outputError = root.getElementById("output-error");
@@ -83,7 +84,9 @@ export function mount(root = document) {
 
     setRevealOrigin(event);
 
-    const { hasChanges } = renderDiffToCanvas(outputCanvas, segments);
+    const { hasChanges } = renderDiffToCanvas(outputCanvas, segments, {
+      language: languageSelect.value,
+    });
 
     setOutputState("success");
     outputStatus.textContent = hasChanges

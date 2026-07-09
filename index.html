@@ -59,9 +59,19 @@
             </div>
           </div>
 
-          <button id="generate-btn" class="generate-btn" type="button">
-            Generate image
-          </button>
+          <div class="controls-row">
+            <div class="language-field">
+              <label class="language-label" for="language-select">Language</label>
+              <select id="language-select" class="language-select">
+                <option value="javascript" selected>JavaScript</option>
+                <option value="python">Python</option>
+                <option value="plaintext">Plain text</option>
+              </select>
+            </div>
+            <button id="generate-btn" class="generate-btn" type="button">
+              Generate image
+            </button>
+          </div>
           <p class="privacy-note">
             Everything runs in your browser — nothing is uploaded or stored.
           </p>

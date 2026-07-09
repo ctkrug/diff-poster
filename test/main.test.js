@@ -26,6 +26,11 @@ function renderShell() {
     <div data-gutter="before"></div>
     <textarea id="after-input"></textarea>
     <div data-gutter="after"></div>
+    <select id="language-select">
+      <option value="javascript" selected>JavaScript</option>
+      <option value="python">Python</option>
+      <option value="plaintext">Plain text</option>
+    </select>
     <button id="generate-btn" type="button"></button>
     <div id="output-card" data-state="empty">
       <p id="output-empty"></p>
@@ -148,6 +153,16 @@ describe("app bootstrap and generate flow", () => {
     expect(card.dataset.state).toBe("error");
     expect(document.getElementById("output-error").textContent).toMatch(/too large/i);
     expect(document.getElementById("output-canvas").hidden).toBe(true);
+  });
+
+  it("passes the selected language through to the renderer on generate", async () => {
+    document.getElementById("before-input").value = "def greet(): pass";
+    document.getElementById("after-input").value = "def greet(): return";
+    document.getElementById("language-select").value = "python";
+    const { api } = await loadMain();
+
+    expect(() => api.generate()).not.toThrow();
+    expect(document.getElementById("output-card").dataset.state).toBe("success");
   });
 
   it("keeps line-number gutters in sync as the user types", async () => {

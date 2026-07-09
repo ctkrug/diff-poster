@@ -296,3 +296,36 @@ body {
   font-size: 0.85rem;
   text-align: center;
 }
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .editor {
+    height: 32vh;
+  }
+
+  .output-card {
+    min-height: 40vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: var(--space-3) var(--space-2) var(--space-6);
+  }
+
+  .editor {
+    height: 18vh;
+    min-height: 150px;
+  }
+
+  .output-card {
+    min-height: 32vh;
+  }
+
+  .output-actions {
+    flex-direction: column;
+  }
+}

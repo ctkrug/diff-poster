@@ -107,6 +107,23 @@ describe("app bootstrap and generate flow", () => {
     expect(document.getElementById("output-status").textContent).toMatch(/generated/i);
   });
 
+  it("hides the stale canvas and actions when a later generate fails", async () => {
+    document.getElementById("before-input").value = "const x = 1;";
+    document.getElementById("after-input").value = "const x = 2;";
+    await loadMain();
+
+    document.getElementById("generate-btn").click();
+    expect(document.getElementById("output-card").dataset.state).toBe("success");
+
+    document.getElementById("after-input").value = "";
+    document.getElementById("generate-btn").click();
+
+    const card = document.getElementById("output-card");
+    expect(card.dataset.state).toBe("error");
+    expect(document.getElementById("output-canvas").hidden).toBe(true);
+    expect(document.getElementById("output-actions").hidden).toBe(true);
+  });
+
   it("stays in a consistent success state under rapid double-clicking of generate", async () => {
     document.getElementById("before-input").value = "const x = 1;";
     document.getElementById("after-input").value = "const x = 2;";

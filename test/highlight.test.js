@@ -46,4 +46,27 @@ describe("classifyToken", () => {
   it("classifies an empty token as whitespace rather than throwing", () => {
     expect(classifyToken("")).toBe("whitespace");
   });
+
+  it("scopes keywords to javascript when a language is given", () => {
+    expect(classifyToken("return", "javascript")).toBe("keyword");
+    expect(classifyToken("def", "javascript")).toBe("identifier");
+  });
+
+  it("scopes keywords to python when a language is given", () => {
+    expect(classifyToken("def", "python")).toBe("keyword");
+    expect(classifyToken("function", "python")).toBe("identifier");
+  });
+
+  it("disables all syntax coloring in plaintext mode", () => {
+    expect(classifyToken("return", "plaintext")).toBe("identifier");
+    expect(classifyToken('"hello"', "plaintext")).toBe("identifier");
+    expect(classifyToken("// note", "plaintext")).toBe("identifier");
+    expect(classifyToken("42", "plaintext")).toBe("identifier");
+    expect(classifyToken("(", "plaintext")).toBe("identifier");
+  });
+
+  it("still classifies whitespace and newlines distinctly in plaintext mode", () => {
+    expect(classifyToken("\n", "plaintext")).toBe("newline");
+    expect(classifyToken("  ", "plaintext")).toBe("whitespace");
+  });
 });

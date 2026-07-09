@@ -33,12 +33,11 @@ function makeStubCanvas() {
 }
 
 describe("renderDiffToCanvas", () => {
-  it("sizes the canvas to the social-share default at devicePixelRatio 1", () => {
+  it("sizes the canvas pixel buffer to the social-share default at devicePixelRatio 1", () => {
     const { canvas } = makeStubCanvas();
     renderDiffToCanvas(canvas, [], { devicePixelRatio: 1 });
     expect(canvas.width).toBe(OUTPUT_WIDTH);
     expect(canvas.height).toBe(OUTPUT_HEIGHT);
-    expect(canvas.style.width).toBe(`${OUTPUT_WIDTH}px`);
   });
 
   it("scales physical pixel dimensions by devicePixelRatio", () => {
@@ -46,8 +45,16 @@ describe("renderDiffToCanvas", () => {
     renderDiffToCanvas(canvas, [], { devicePixelRatio: 2 });
     expect(canvas.width).toBe(OUTPUT_WIDTH * 2);
     expect(canvas.height).toBe(OUTPUT_HEIGHT * 2);
-    // CSS size stays in logical pixels regardless of DPR.
-    expect(canvas.style.width).toBe(`${OUTPUT_WIDTH}px`);
+  });
+
+  it("never sets an inline CSS width/height, leaving display sizing to the responsive stylesheet", () => {
+    // A hardcoded inline style would override the stylesheet's `width: 100%`
+    // rule and force the card past any viewport narrower than OUTPUT_WIDTH,
+    // breaking layout on phones and tablets.
+    const { canvas } = makeStubCanvas();
+    renderDiffToCanvas(canvas, [], { devicePixelRatio: 2 });
+    expect(canvas.style.width).toBeFalsy();
+    expect(canvas.style.height).toBeFalsy();
   });
 
   it("reports hasChanges: false and draws a no-changes label for an all-equal diff", () => {

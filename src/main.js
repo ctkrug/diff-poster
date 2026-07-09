@@ -1,4 +1,4 @@
-import { diffTokens } from "./diff/diff.js";
+import { DiffTooLargeError, diffTokens } from "./diff/diff.js";
 import { renderDiffToCanvas } from "./render/canvas.js";
 import { buildDownloadFilename, canvasToBlob } from "./export/canvasExport.js";
 import { isClipboardImageSupported } from "./export/clipboardSupport.js";
@@ -70,9 +70,19 @@ export function mount(root = document) {
       return;
     }
 
+    let segments;
+    try {
+      segments = diffTokens(before, after);
+    } catch (err) {
+      if (err instanceof DiffTooLargeError) {
+        showError("These snippets are too large to diff — try a shorter excerpt.");
+        return;
+      }
+      throw err;
+    }
+
     setRevealOrigin(event);
 
-    const segments = diffTokens(before, after);
     const { hasChanges } = renderDiffToCanvas(outputCanvas, segments);
 
     setOutputState("success");

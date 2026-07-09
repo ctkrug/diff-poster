@@ -1,5 +1,7 @@
 # Diff Poster
 
+[![CI](https://github.com/ctkrug/diff-poster/actions/workflows/ci.yml/badge.svg)](https://github.com/ctkrug/diff-poster/actions/workflows/ci.yml)
+
 Paste a before/after code snippet, get back a single crisp image of just the diff —
 styled like a nice editor, sized for a tweet, no login, no export dialog.
 

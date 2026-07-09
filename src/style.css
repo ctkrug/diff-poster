@@ -200,3 +200,99 @@ body {
   color: var(--ink-muted);
   font-size: 0.85rem;
 }
+
+.output-card {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-1);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  padding: var(--space-3);
+}
+
+.output-empty,
+.output-error {
+  margin: 0;
+  text-align: center;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  max-width: 40ch;
+}
+
+.output-error {
+  color: var(--danger);
+}
+
+.output-canvas {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+.output-card[data-state="success"] .output-canvas {
+  animation: ink-blot 400ms ease-out;
+}
+
+@keyframes ink-blot {
+  from {
+    clip-path: circle(0% at var(--reveal-x, 50%) var(--reveal-y, 50%));
+  }
+  to {
+    clip-path: circle(140% at var(--reveal-x, 50%) var(--reveal-y, 50%));
+  }
+}
+
+.output-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.action-btn {
+  flex: 1 1 0;
+  min-height: 44px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  background: var(--surface-1);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform var(--motion-ui), background var(--motion-ui),
+    border-color var(--motion-ui);
+}
+
+.action-btn:hover {
+  background: var(--surface-2);
+  border-color: var(--accent-action);
+}
+
+.action-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid var(--accent-action);
+  outline-offset: 3px;
+}
+
+.action-btn:disabled {
+  color: var(--ink-muted);
+  cursor: not-allowed;
+  background: var(--surface-1);
+  border-color: var(--surface-2);
+}
+
+.output-status {
+  min-height: 1.2em;
+  margin: 0;
+  color: var(--success);
+  font-size: 0.85rem;
+  text-align: center;
+}

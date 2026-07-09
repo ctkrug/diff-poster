@@ -10,3 +10,5 @@ npm-debug.log*
 *.local
 .vite/
 .cache/
+test-results/
+playwright-report/

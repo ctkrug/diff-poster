@@ -23,7 +23,7 @@ Paste two versions of a function into the two panes and instantly get a properly
 highlighted diff image — token-level, not line-level — cropped and sized exactly for
 pasting into a tweet or a Slack message.
 
-## Planned features
+## Features
 
 - Token-level diff highlighting (not whole-line red/green blocks) via a real diffing
   algorithm over lexical tokens, so a renamed variable or a tweaked argument list reads
@@ -31,11 +31,17 @@ pasting into a tweet or a Slack message.
 - Editor-style rendering: syntax highlighting, a monospace type stack, subtle line
   numbers, rounded window chrome — looks like a screenshot from a nice editor, not a
   raw `<pre>` block.
-- Output sized for social sharing (tweet/Slack-friendly aspect ratio) by default, with
+- Output sized for social sharing (1200×675, tweet/Slack-friendly) by default, with
   the image rendered client-side onto a `<canvas>` and exported as PNG.
-- One-click "Copy image" (Clipboard API) and "Download PNG" — no export dialog, no
-  intermediate screen.
+- One-click "Copy image" (Clipboard API, with a clearly-disabled fallback where it's
+  unsupported) and "Download PNG" — no export dialog, no intermediate screen.
 - No login, no backend, no stored data: everything happens in the browser.
+
+## Usage
+
+1. Paste the original code into the **Before** pane, the changed code into **After**.
+2. Click **Generate image**.
+3. **Copy image** or **Download PNG** — both one click, no dialog.
 
 ## Stack
 
@@ -46,12 +52,25 @@ Static, client-side JavaScript (no build-time server, no user accounts):
 - Vitest for unit tests (diff logic, tokenizer, layout math).
 - Ships as a static site — no server required at runtime.
 
-See [`docs/VISION.md`](docs/VISION.md) for the full design rationale and
+See [`docs/VISION.md`](docs/VISION.md) for the full design rationale,
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the module map, and
 [`docs/BACKLOG.md`](docs/BACKLOG.md) for the build plan.
+
+## Development
+
+```
+npm install
+npm run dev      # local dev server
+npm test         # vitest
+npm run lint     # eslint
+npm run build    # static production build (output: dist/)
+```
 
 ## Status
 
-Early scaffold — see the backlog for what's built vs. planned.
+The core "paste, diff, image" flow and copy/download/share are built and tested —
+see [`docs/BACKLOG.md`](docs/BACKLOG.md) for what's shipped vs. planned (language
+selection, large-input handling, and a full accessibility pass are still open).
 
 ## License
 

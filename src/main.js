@@ -1,5 +1,6 @@
 import { diffTokens } from "./diff/diff.js";
 import { renderDiffToCanvas } from "./render/canvas.js";
+import { buildDownloadFilename, canvasToBlob } from "./export/canvasExport.js";
 
 function updateGutter(textarea, gutter) {
   const lineCount = textarea.value.split("\n").length;
@@ -30,6 +31,7 @@ export function mount(root = document) {
   const outputCanvas = root.getElementById("output-canvas");
   const outputActions = root.getElementById("output-actions");
   const outputStatus = root.getElementById("output-status");
+  const downloadBtn = root.getElementById("download-btn");
 
   function setOutputState(state) {
     outputCard.dataset.state = state;
@@ -77,11 +79,27 @@ export function mount(root = document) {
       : "No changes between before and after.";
   }
 
+  async function download() {
+    try {
+      const blob = await canvasToBlob(outputCanvas);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = buildDownloadFilename();
+      link.click();
+      URL.revokeObjectURL(url);
+      outputStatus.textContent = "Downloaded.";
+    } catch {
+      outputStatus.textContent = "Couldn't download the image — try again.";
+    }
+  }
+
   wirePane(beforeInput, beforeGutter);
   wirePane(afterInput, afterGutter);
   generateBtn.addEventListener("click", generate);
+  downloadBtn.addEventListener("click", download);
 
-  return { generate };
+  return { generate, download };
 }
 
-mount();
+export const api = mount();

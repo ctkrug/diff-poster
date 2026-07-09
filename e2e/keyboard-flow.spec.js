@@ -64,3 +64,15 @@ test("every focusable control shows a visible focus ring while tabbing", async (
     );
   }
 });
+
+test("every clickable control meets the 44px minimum touch target", async ({ page }) => {
+  await page.goto("/");
+  await page.fill("#before-input", "const x = 1;");
+  await page.fill("#after-input", "const x = 2;");
+  await page.click("#generate-btn");
+
+  for (const id of ["language-select", "generate-btn", "copy-btn", "download-btn"]) {
+    const box = await page.locator(`#${id}`).boundingBox();
+    expect(box.height, `#${id} height`).toBeGreaterThanOrEqual(44);
+  }
+});

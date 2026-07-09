@@ -1,0 +1,11 @@
+{
+  "name": "diff-poster",
+  "version": "0.1.0",
+  "description": "Paste a before/after code snippet, get a single shareable diff image.",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}
